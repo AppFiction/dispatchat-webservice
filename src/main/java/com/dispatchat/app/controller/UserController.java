@@ -21,6 +21,7 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    
     @Value("${twilio.account.sid}")
     private String accountSid;
 
@@ -40,6 +41,11 @@ public class UserController {
         User savedUser = userRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
+    
+    @GetMapping("/{id}")
+	public @ResponseBody User getUserById(@PathVariable Long id) {
+		return userRepository.findById(id).orElse(null);
+	}
 
     @PutMapping("/{userID}")
     public ResponseEntity<User> updateUser(@PathVariable Long userID, @RequestBody User updatedUser) {
